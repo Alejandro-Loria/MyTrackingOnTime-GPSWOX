@@ -1,0 +1,1870 @@
+﻿@model MyTrackingOnTime.Models.AuthenticationModel.Root
+
+@{
+    ViewData["Title"] = "Permisos";
+}
+
+@*<h1>Permisos</h1>
+<p>@ViewBag.Message</p>*@
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>*@
+
+<div class="container px-4 py-5" id="hanging-icons">
+    <h2 class="pb-2 border-bottom">Permisos</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>Devices</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.devices.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="devicesView" name="devicesView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="devicesView" name="devicesView" disabled>
+                        }
+                            <label class="form-check-label" for="devicesView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.devices.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="devicesEdit" name="devicesEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="devicesEdit" name="devicesEdit" disabled>
+                        }
+                            <label class="form-check-label" for="devicesEdit">Editar</label>
+                    }
+                 </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.devices.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="devicesRemove" name="devicesRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="devicesRemove" name="devicesRemove" disabled>
+                        }
+                            <label class="form-check-label" for="devicesRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Alerts</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.alerts.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="alertsView" name="alertsView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="alertsView" name="alertsView" disabled>
+                        }
+                            <label class="form-check-label" for="alertsView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.alerts.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="alertsEdit" name="alertsEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="alertsEdit" name="alertsEdit" disabled>
+                        }
+                            <label class="form-check-label" for="alertsEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.alerts.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="alertsRemove" name="alertsRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="alertsRemove" name="alertsRemove" disabled>
+                        }
+                            <label class="form-check-label" for="alertsRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>Geofences</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.geofences.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="geofencesView" name="geofencesView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="geofencesView" name="geofencesView" disabled>
+                        }
+                            <label class="form-check-label" for="geofencesView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.geofences.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="geofencesEdit" name="geofencesEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="geofencesEdit" name="geofencesEdit" disabled>
+                        }
+                            <label class="form-check-label" for="geofencesEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.geofences.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="geofencesRemove" name="geofencesRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="geofencesRemove" name="geofencesRemove" disabled>
+                        }
+                            <label class="form-check-label" for="geofencesRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>Routes</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.routes.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="routesView" name="routesView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="routesView" name="routesView" disabled>
+                        }
+                            <label class="form-check-label" for="routesView">Ver</label>
+                    }
+                 </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.routes.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="routesEdit" name="routesEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="routesEdit" name="routesEdit" disabled>
+                        }
+                            <label class="form-check-label" for="routesEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.routes.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="routesRemove" name="routesRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="routesRemove" name="routesRemove" disabled>
+                        }
+                            <label class="form-check-label" for="routesRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Poi</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.poi.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="poiView" name="poiView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="poiView" name="poiView" disabled>
+                        }
+                            <label class="form-check-label" for="poiView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.poi.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="poiEdit" name="poiEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="poiEdit" name="poiEdit" disabled>
+                        }
+                            <label class="form-check-label" for="poiEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.poi.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="poiRemove" name="poiRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="poiRemove" name="poiRemove" disabled>
+                        }
+                            <label class="form-check-label" for="poiRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>Reports</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.reports.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="reportsView" name="reportsView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="reportsView" name="reportsView" disabled>
+                        }
+                            <label class="form-check-label" for="reportsView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.reports.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="reportsEdit" name="reportsEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="reportsEdit" name="reportsEdit" disabled>
+                        }
+                            <label class="form-check-label" for="reportsEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.reports.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="reportsRemove" name="reportsRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="reportsRemove" name="reportsRemove" disabled>
+                        }
+                            <label class="form-check-label" for="reportsRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>SMS Gateway</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.sms_gateway.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="smsGatewayView" name="smsGatewayView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="smsGatewayView" name="smsGatewayView" disabled>
+                        }
+                            <label class="form-check-label" for="smsGatewayView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.sms_gateway.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="smsGatewayEdit" name="smsGatewayEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="smsGatewayEdit" name="smsGatewayEdit" disabled>
+                        }
+                            <label class="form-check-label" for="smsGatewayEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.sms_gateway.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="smsGatewayRemove" name="smsGatewayRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="smsGatewayRemove" name="smsGatewayRemove" disabled>
+                        }
+                            <label class="form-check-label" for="smsGatewayRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Send Command</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.send_command.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="sendCommandView" name="sendCommandView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="sendCommandView" name="sendCommandView" disabled>
+                        }
+                            <label class="form-check-label" for="sendCommandView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.send_command.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="sendCommandEdit" name="sendCommandEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="sendCommandEdit" name="sendCommandEdit" disabled>
+                        }
+                            <label class="form-check-label" for="sendCommandEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.send_command.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="sendCommandRemove" name="sendCommandRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="sendCommandRemove" name="sendCommandRemove" disabled>
+                        }
+                            <label class="form-check-label" for="sendCommandRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>History</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.history.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="historyView" name="historyView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="historyView" name="historyView" disabled>
+                        }
+                            <label class="form-check-label" for="historyView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.history.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="historyEdit" name="historyEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="historyEdit" name="historyEdit" disabled>
+                        }
+                            <label class="form-check-label" for="historyEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.history.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="historyRemove" name="historyRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="historyRemove" name="historyRemove" disabled>
+                        }
+                            <label class="form-check-label" for="historyRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>Maintenance</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.maintenance.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="maintenanceView" name="maintenanceView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="maintenanceView" name="maintenanceView" disabled>
+                        }
+                            <label class="form-check-label" for="maintenanceView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.maintenance.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="maintenanceEdit" name="maintenanceEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="maintenanceEdit" name="maintenanceEdit" disabled>
+                        }
+                            <label class="form-check-label" for="maintenanceEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.maintenance.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="maintenanceRemove" name="maintenanceRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="maintenanceRemove" name="maintenanceRemove" disabled>
+                        }
+                            <label class="form-check-label" for="maintenanceRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Camera</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.camera.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="cameraView" name="cameraView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="cameraView" name="cameraView" disabled>
+                        }
+                            <label class="form-check-label" for="cameraView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.camera.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="cameraEdit" name="cameraEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="cameraEdit" name="cameraEdit" disabled>
+                        }
+                            <label class="form-check-label" for="cameraEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.camera.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="cameraRemove" name="cameraRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="cameraRemove" name="cameraRemove" disabled>
+                        }
+                            <label class="form-check-label" for="cameraRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>Device Camera</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.device_camera.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCameraView" name="deviceCameraView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCameraView" name="deviceCameraView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceCameraView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.device_camera.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCameraEdit" name="deviceCameraEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCameraEdit" name="deviceCameraEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceCameraEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.device_camera.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCameraRemove" name="deviceCameraRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCameraRemove" name="deviceCameraRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceCameraRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>Tasks</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.tasks.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="tasksView" name="tasksView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="tasksView" name="tasksView" disabled>
+                        }
+                            <label class="form-check-label" for="tasksView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.tasks.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="tasksEdit" name="tasksEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="tasksEdit" name="tasksEdit" disabled>
+                        }
+                            <label class="form-check-label" for="tasksEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.tasks.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="tasksRemove" name="tasksRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="tasksRemove" name="tasksRemove" disabled>
+                        }
+                            <label class="form-check-label" for="tasksRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Chat</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.chat.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="chatView" name="chatView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="chatView" name="chatView" disabled>
+                        }
+                            <label class="form-check-label" for="chatView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.chat.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="chatEdit" name="chatEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="chatEdit" name="chatEdit" disabled>
+                        }
+                            <label class="form-check-label" for="chatEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.chat.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="chatRemove" name="chatRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="chatRemove" name="chatRemove" disabled>
+                        }
+                            <label class="form-check-label" for="chatRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>Device IMEI</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceImei.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceImeiView" name="deviceImeiView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceImeiView" name="deviceImeiView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceImeiView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceImei.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceImeiEdit" name="deviceImeiEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceImeiEdit" name="deviceImeiEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceImeiEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceImei.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceImeiRemove" name="deviceImeiRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceImeiRemove" name="deviceImeiRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceImeiRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>Device SIM Number</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceSimNumber.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimNumberView" name="deviceSimNumberView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimNumberView" name="deviceSimNumberView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceSimNumberView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceSimNumber.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimNumberEdit" name="deviceSimNumberEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimNumberEdit" name="deviceSimNumberEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceSimNumberEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceSimNumber.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimNumberRemove" name="deviceSimNumberRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimNumberRemove" name="deviceSimNumberRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceSimNumberRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Device Forward</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceForward.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceForwardView" name="deviceForwardView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceForwardView" name="deviceForwardView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceForwardView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceForward.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceForwardEdit" name="deviceForwardEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceForwardEdit" name="deviceForwardEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceForwardEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceForward.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceForwardRemove" name="deviceForwardRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceForwardRemove" name="deviceForwardRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceForwardRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>Device Protocol</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceProtocol.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceProtocolView" name="deviceProtocolView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceProtocolView" name="deviceProtocolView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceProtocolView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceProtocol.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceProtocolEdit" name="deviceProtocolEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceProtocolEdit" name="deviceProtocolEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceProtocolEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceProtocol.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceProtocolRemove" name="deviceProtocolRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceProtocolRemove" name="deviceProtocolRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceProtocolRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>Device Expiration Date</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceExpirationDate.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceExpirationDateView" name="deviceExpirationDateView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceExpirationDateView" name="deviceExpirationDateView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceExpirationDateView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceExpirationDate.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceExpirationDateEdit" name="deviceExpirationDateEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceExpirationDateEdit" name="deviceExpirationDateEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceExpirationDateEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceExpirationDate.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceExpirationDateRemove" name="deviceExpirationDateRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceExpirationDateRemove" name="deviceExpirationDateRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceExpirationDateRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Device Installation Date</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceInstallationDate.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceInstallationDateView" name="deviceInstallationDateView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceInstallationDateView" name="deviceInstallationDateView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceInstallationDateView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceInstallationDate.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceInstallationDateEdit" name="deviceInstallationDateEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceInstallationDateEdit" name="deviceInstallationDateEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceInstallationDateEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceInstallationDate.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceInstallationDateRemove" name="deviceInstallationDateRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceInstallationDateRemove" name="deviceInstallationDateRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceInstallationDateRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>Device SIM Activation Date</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceSimActivationDate.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimActivationDateView" name="deviceSimActivationDateView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimActivationDateView" name="deviceSimActivationDateView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceSimActivationDateView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceSimActivationDate.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimActivationDateEdit" name="deviceSimActivationDateEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimActivationDateEdit" name="deviceSimActivationDateEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceSimActivationDateEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceSimActivationDate.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimActivationDateRemove" name="deviceSimActivationDateRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimActivationDateRemove" name="deviceSimActivationDateRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceSimActivationDateRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>SIM Expiration Date</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceSimExpirationDate.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimExpirationDateView" name="deviceSimExpirationDateView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimExpirationDateView" name="deviceSimExpirationDateView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceSimExpirationDateView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceSimExpirationDate.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimExpirationDateEdit" name="deviceSimExpirationDateEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimExpirationDateEdit" name="deviceSimExpirationDateEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceSimExpirationDateEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceSimExpirationDate.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimExpirationDateRemove" name="reportsRedeviceSimExpirationDateRemovemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceSimExpirationDateRemove" name="deviceSimExpirationDateRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceSimExpirationDateRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Device MSISDN</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceMsisdn.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceMsisdnView" name="deviceMsisdnView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceMsisdnView" name="deviceMsisdnView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceMsisdnView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceMsisdn.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceMsisdnEdit" name="deviceMsisdnEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceMsisdnEdit" name="deviceMsisdnEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceMsisdnEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceMsisdn.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceMsisdnRemove" name="deviceMsisdnRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceMsisdnRemove" name="deviceMsisdnRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceMsisdnRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>Device Custom Fields</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceCustomFields.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCustomFieldsView" name="deviceCustomFieldsView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCustomFieldsView" name="deviceCustomFieldsView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceCustomFieldsView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceCustomFields.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCustomFieldsEdit" name="deviceCustomFieldsEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCustomFieldsEdit" name="deviceCustomFieldsEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceCustomFieldsEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceCustomFields.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCustomFieldsRemove" name="deviceCustomFieldsRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceCustomFieldsRemove" name="deviceCustomFieldsRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceCustomFieldsRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>Device Type ID</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceDeviceTypeId.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceDeviceTypeIdView" name="deviceDeviceTypeIdView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceDeviceTypeIdView" name="deviceDeviceTypeIdView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceDeviceTypeIdView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceDeviceTypeId.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceDeviceTypeIdEdit" name="deviceDeviceTypeIdEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceDeviceTypeIdEdit" name="deviceDeviceTypeIdEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceDeviceTypeIdEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.DeviceDeviceTypeId.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceDeviceTypeIdRemove" name="deviceDeviceTypeIdRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceDeviceTypeIdRemove" name="deviceDeviceTypeIdRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceDeviceTypeIdRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Sharing</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.sharing.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="sharingView" name="sharingView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="sharingView" name="sharingView" disabled>
+                        }
+                            <label class="form-check-label" for="sharingView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.sharing.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="sharingEdit" name="sharingEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="sharingEdit" name="sharingEdit" disabled>
+                        }
+                            <label class="form-check-label" for="sharingEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.sharing.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="sharingRemove" name="sharingRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="sharingRemove" name="sharingRemove" disabled>
+                        }
+                            <label class="form-check-label" for="sharingRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>Checklist Template</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_template.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistTemplateView" name="checklistTemplateView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistTemplateView" name="checklistTemplateView" disabled>
+                        }
+                            <label class="form-check-label" for="checklistTemplateView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_template.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistTemplateEdit" name="checklistTemplateEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistTemplateEdit" name="checklistTemplateEdit" disabled>
+                        }
+                            <label class="form-check-label" for="checklistTemplateEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_template.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistTemplateRemove" name="checklistTemplateRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistTemplateRemove" name="checklistTemplateRemove" disabled>
+                        }
+                            <label class="form-check-label" for="checklistTemplateRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>Checklist</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistView" name="checklistView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistView" name="checklistView" disabled>
+                        }
+                            <label class="form-check-label" for="checklistView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistEdit" name="checklistEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistEdit" name="checklistEdit" disabled>
+                        }
+                            <label class="form-check-label" for="checklistEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistRemove" name="checklistRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistRemove" name="checklistRemove" disabled>
+                        }
+                            <label class="form-check-label" for="checklistRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Checklist Activity</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_activity.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistActivityEdit" name="checklistActivityEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistActivityEdit" name="checklistActivityEdit" disabled>
+                        }
+                            <label class="form-check-label" for="checklistActivityView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_activity.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistActivityEdit" name="checklistActivityEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistActivityEdit" name="checklistActivityEdit" disabled>
+                        }
+                            <label class="form-check-label" for="checklistActivityEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_activity.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistActivityRemove" name="checklistActivityRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistActivityRemove" name="checklistActivityRemove" disabled>
+                        }
+                            <label class="form-check-label" for="checklistActivityRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>Checklist QR Code</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_qr_code.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrCodeView" name="checklistQrCodeView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrCodeView" name="checklistQrCodeView" disabled>
+                        }
+                            <label class="form-check-label" for="checklistQrCodeView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_qr_code.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrCodeEdit" name="checklistQrCodeEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrCodeEdit" name="checklistQrCodeEdit" disabled>
+                        }
+                            <label class="form-check-label" for="checklistQrCodeEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_qr_code.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrCodeRemove" name="checklistQrCodeRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrCodeRemove" name="checklistQrCodeRemove" disabled>
+                        }
+                            <label class="form-check-label" for="checklistQrCodeRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>Checklist QR Pre Start Only</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_qr_pre_start_only.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrPreStartOnlyView" name="checklistQrPreStartOnlyView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrPreStartOnlyView" name="checklistQrPreStartOnlyView" disabled>
+                        }
+                            <label class="form-check-label" for="checklistQrPreStartOnlyView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_qr_pre_start_only.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrPreStartOnlyEdit" name="checklistQrPreStartOnlyEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrPreStartOnlyEdit" name="checklistQrPreStartOnlyEdit" disabled>
+                        }
+                            <label class="form-check-label" for="checklistQrPreStartOnlyEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_qr_pre_start_only.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrPreStartOnlyRemove" name="checklistQrPreStartOnlyRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistQrPreStartOnlyRemove" name="checklistQrPreStartOnlyRemove" disabled>
+                        }
+                            <label class="form-check-label" for="checklistQrPreStartOnlyRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Checklist Optional Image</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_optional_image.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistOptionalImageView" name="checklistOptionalImageView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistOptionalImageView" name="checklistOptionalImageView" disabled>
+                        }
+                            <label class="form-check-label" for="checklistOptionalImageView">Ver</label>
+                    }
+                 </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_optional_image.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistOptionalImageEdit" name="checklistOptionalImageEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistOptionalImageEdit" name="checklistOptionalImageEdit" disabled>
+                        }
+                            <label class="form-check-label" for="checklistOptionalImageEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.checklist_optional_image.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistOptionalImageRemove" name="checklistOptionalImageRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="checklistOptionalImageRemove" name="checklistOptionalImageRemove" disabled>
+                        }
+                            <label class="form-check-label" for="checklistOptionalImageRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>Device Configuration</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.device_configuration.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceConfigurationView" name="deviceConfigurationView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceConfigurationView" name="deviceConfigurationView" disabled>
+                        }
+                            <label class="form-check-label" for="deviceConfigurationView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.device_configuration.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceConfigurationEdit" name="deviceConfigurationEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceConfigurationEdit" name="deviceConfigurationEdit" disabled>
+                        }
+                            <label class="form-check-label" for="deviceConfigurationEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.device_configuration.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceConfigurationRemove" name="deviceConfigurationRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="deviceConfigurationRemove" name="deviceConfigurationRemove" disabled>
+                        }
+                            <label class="form-check-label" for="deviceConfigurationRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-car bi"></i>
+            </div>
+            <div>
+                <h2>Call Actions</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.call_actions.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="callActionsView" name="callActionsView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="callActionsView" name="callActionsView" disabled>
+                        }
+                            <label class="form-check-label" for="callActionsView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.call_actions.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="callActionsEdit" name="callActionsEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="callActionsEdit" name="callActionsEdit" disabled>
+                        }
+                            <label class="form-check-label" for="callActionsEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.call_actions.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="callActionsRemove" name="callActionsRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="callActionsRemove" name="callActionsRemove" disabled>
+                        }
+                            <label class="form-check-label" for="callActionsRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bell bi"></i>
+            </div>
+            <div>
+                <h2>Widget Template Webhook</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.widget_template_webhook.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="widgetTemplateWebhookView" name="widgetTemplateWebhookView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="widgetTemplateWebhookView" name="widgetTemplateWebhookView" disabled>
+                        }
+                            <label class="form-check-label" for="widgetTemplateWebhookView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.widget_template_webhook.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="widgetTemplateWebhookEdit" name="widgetTemplateWebhookEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="widgetTemplateWebhookEdit" name="widgetTemplateWebhookEdit" disabled>
+                        }
+                            <label class="form-check-label" for="widgetTemplateWebhookEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.widget_template_webhook.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="widgetTemplateWebhookRemove" name="widgetTemplateWebhookRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="widgetTemplateWebhookRemove" name="widgetTemplateWebhookRemove" disabled>
+                        }
+                            <label class="form-check-label" for="widgetTemplateWebhookRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                <i class="fas fa-bullseye bi"></i>
+            </div>
+            <div>
+                <h2>Custom Device Add</h2>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.custom_device_add.view == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="customDeviceAddView" name="customDeviceAddView" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="customDeviceAddView" name="customDeviceAddView" disabled>
+                        }
+                            <label class="form-check-label" for="customDeviceAddView">Ver</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.custom_device_add.edit == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="customDeviceAddEdit" name="customDeviceAddEdit" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="customDeviceAddEdit" name="customDeviceAddEdit" disabled>
+                        }
+                            <label class="form-check-label" for="customDeviceAddEdit">Editar</label>
+                    }
+                </div>
+                <div class="form-check form-switch">
+                    @if (Model != null)
+                    {
+                        @if (@Model.permissions.custom_device_add.remove == true)
+                        {
+                            <input class="form-check-input" type="checkbox" id="customDeviceAddRemove" name="customDeviceAddRemove" checked disabled>
+                        }
+                        else
+                        {
+                            <input class="form-check-input" type="checkbox" id="customDeviceAddRemove" name="customDeviceAddRemove" disabled>
+                        }
+                            <label class="form-check-label" for="customDeviceAddRemove">Eliminar</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

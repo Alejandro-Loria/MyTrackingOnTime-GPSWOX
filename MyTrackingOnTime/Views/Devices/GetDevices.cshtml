@@ -1,0 +1,673 @@
+﻿@model IEnumerable<MyTrackingOnTime.Models.DevicesModel.Root>
+
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="~/lib/datatables/1.11.3/css/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/datatables/extensions/datatables/1.11.3/css/dataTables.bootstrap5.min.css" />
+}
+
+@section Scripts {
+    <script type="text/javascript" src="~/lib/datatables/1.11.3/js/datatables.min.js"></script>
+    <script type="text/javascript" src="~/lib/datatables/extensions/datatables/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //DataTable BootStrap
+            $('#devices').DataTable({
+                "language": {
+                "url": '@Url.Content("~/lib/datatables/extensions/i18n/es-mx.json")'
+                }
+            });
+
+            // Tooltips Bootstrap
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
+    </script>
+
+    @if (ViewBag.error != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var toastError = document.getElementById('ErrorToast')
+                var toast = new bootstrap.Toast(toastError)
+                toast.show({
+                    animation: true,
+                    autohide: true,
+                    delay: 9000
+                });
+            });
+        </script>
+    }
+
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var toastSuccess = document.getElementById('SuccessToast')
+                var toast = new bootstrap.Toast(toastSuccess)
+                toast.show({
+                    animation: true,
+                    autohide: true,
+                    delay: 9000
+                });
+            });
+        </script>
+    }
+
+    @if (ViewBag.SyncOrAsync != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var toastSyncOrAsync = document.getElementById('SyncOrAsyncToast')
+                var toast = new bootstrap.Toast(toastSyncOrAsync)
+                toast.show({
+                    animation: true,
+                    autohide: true,
+                    delay: 8000
+                });
+            });
+        </script>
+    }
+}
+
+@{
+    //ViewData["Title"] = "Dispositivos (Devices)";
+    ViewBag.Title = "Dispositivos (Devices)";
+}
+
+
+@*<h1>Permisos</h1>
+    <p>@ViewBag.Message</p>*@
+<h1>Devices</h1>
+
+@*<form method="post" class="row g-3">
+        <button type="submit" class="btn btn-primary mb-3" asp-action="GetDevices" asp-controller="Device"> Show Devices </button>
+    </form>
+
+    @if (ViewBag.Message != null)
+    {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @ViewBag.Message
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    }
+
+    @if (ViewBag.error != null)
+    {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @ViewBag.error
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    }
+
+    @if (ViewBag.SyncOrAsync != null)
+    {
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="SyncOrAsyncToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="~/img/favicons/favicon-32x32.png" class="rounded me-2" alt="Devices">
+                <strong class="me-auto">Dispositivos (Devices)</strong>
+                <small>@ViewBag.elapsedTime segundos</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @ViewBag.SyncOrAsync
+            </div>
+        </div>
+    </div>
+    }*@
+
+<div aria-live="polite" aria-atomic="true" class="position-relative">
+    <!-- Position it: -->
+    <!-- - `.toast-container` for spacing between toasts -->
+    <!-- - `.position-absolute`, `top-0` & `end-0` to position the toasts in the upper right corner -->
+    <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        @if (ViewBag.error != null)
+        {
+            <div id="ErrorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-danger">
+                    <img src="~/img/favicons/favicon-32x32.png" class="rounded me-2" alt="...">
+                    <strong class="me-auto">Devices</strong>
+                    <small class="text-white">@ViewBag.elapsedTime segundos</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <p>@ViewBag.error</p>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.Message != null)
+        {
+            <div id="SuccessToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-success text-white">
+                    @*<img src="~/img/favicons/favicon-32x32.png" class="rounded me-2" alt="...">*@
+                    <i class="fas fa-check-circle rounded me-2"></i>
+                    <strong class="me-auto">Devices</strong>
+                    <small class="text-white">@ViewBag.elapsedTime segundos</small>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <p>@ViewBag.Message</p>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.SyncOrAsync != null)
+        {
+            <div id="SyncOrAsyncToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-info text-white">
+                    @*<img src="~/img/favicons/favicon-32x32.png" class="rounded me-2" alt="...">*@
+                    <i class="fas fa-truck rounded me-2"></i>
+                    <strong class="me-auto">Devices</strong>
+                    <small class="text-white">@ViewBag.elapsedTime segundos</small>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <p>Synch Type: @ViewBag.SyncOrAsync</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+
+<div class="card mb-4">
+    <div class="card-header">
+        Acciones
+    </div>
+    <div class="card-body">
+        <a class="btn btn-primary" asp-area="" asp-controller="Devices" asp-action="GetDevicesLatest">get_devices_latest</a>
+    </div>
+</div>
+
+@if (Model == null)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        <h2>
+            @Html.LabelFor(modelItem => item.Title, new { @class = "control-label" }): @Html.DisplayFor(modelItem => item.Title)
+            <small class="badge bg-secondary">@Html.LabelFor(modelItem => item.Id, new { @class = "control-label" }): @Html.DisplayFor(modelItem => item.Id)</small>
+        </h2>
+    }
+}
+
+<table class="table" id="devices">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Última conexión</th>
+            <th scope="col">Posición</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                @foreach (var itm in item.Items)
+                {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => @itm.Name)
+                        </td>
+                        <td class="align-middle text-center">
+                            <span data-device="status"
+                                  style="background-color: @Html.DisplayFor(modelItem => itm.IconColor)"
+                                  data-bs-toggle="tooltip" data-bs-placement="top"
+                                  title="@Html.DisplayName(@itm.Online).First().ToString().ToUpper()@Html.DisplayName(@itm.Online).ToString().Substring(1)">
+                                @Html.DisplayName(@itm.Online).First().ToString().ToUpper()@Html.DisplayName(@itm.Online).ToString().Substring(1)
+                            </span>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => @itm.Time)
+                        </td>
+                        <td>
+                            <a href="http://maps.google.com/maps?q=@Html.DisplayFor(modelItem => @itm.Lat),@Html.DisplayFor(modelItem => @itm.Lng)" target="_blank">@Html.DisplayFor(modelItem => @itm.Lat)°, @Html.DisplayFor(modelItem => @itm.Lng)°</a>
+                        </td>
+                        @*
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.course)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.speed)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.altitude)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.icon_type)
+                            </td>
+                            <td>
+                                <span data-device="status"
+                                      style="background-color: @Html.DisplayFor(modelItem => itm.icon_color)"
+                                      title="@Html.DisplayName(@itm.online).First().ToString().ToUpper()@Html.DisplayName(@itm.online).ToString().Substring(1)">
+                                    @if (itm.icon_colors.moving == itm.icon_color)
+                                    {
+                                    @Html.DisplayNameFor(modelItem => @itm.icon_colors.moving)
+                                    }
+                                    else if (itm.icon_colors.stopped == itm.icon_color)
+                                    {
+                                    @Html.DisplayNameFor(modelItem => @itm.icon_colors.stopped)
+                                    }
+                                    else if (itm.icon_colors.offline == itm.icon_color)
+                                    {
+                                    @Html.DisplayNameFor(modelItem => @itm.icon_colors.offline)
+                                    }
+                                    else if (itm.icon_colors.engine == itm.icon_color)
+                                    {
+                                    @Html.DisplayNameFor(modelItem => @itm.icon_colors.engine)
+                                    }
+                                </span>
+                            </td>
+                            <td>
+                                <ul class="list-group">
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.icon.id)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.icon.user_id)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.icon.type)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.icon.order)</li>
+                                    <li class="list-group-item"><img src="@Html.DisplayFor(modelItem => @item.public_path)@Html.DisplayFor(modelItem => @itm.icon.path)" width="@Html.DisplayFor(modelItem => @itm.icon.width)" height="@Html.DisplayFor(modelItem => @itm.icon.height)" class="img-fluid" alt="arrow-ack.png"></li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.icon.by_status)</li>
+                                </ul>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.power)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.address)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.protocol)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.driver)
+                            </td>
+                            <td>
+                                <ul class="list-group">
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.driver_data.id)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.driver_data.user_id)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.driver_data.device_id)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.driver_data.name)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.driver_data.rfid)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.driver_data.phone)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.driver_data.email)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.driver_data.description)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.driver_data.created_at)</li>
+                                    <li class="list-group-item">@Html.DisplayFor(modelItem => @itm.driver_data.updated_at)</li>
+                                </ul>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.sensors)
+                            </td>
+                            <t>
+                                @Html.DisplayFor(modelItem => @itm.services)
+                            </t>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.tail)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.distance_unit_hour)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.unit_of_distance)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.unit_of_altitude)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.unit_of_capacity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.stop_duration)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.stop_duration_sec)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.moved_timestamp)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.engine_status)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.detect_engine)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.engine_hours)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.total_distance)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => @itm.device_data)
+                            </td>*@
+
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                @Html.ActionLink("Detalles", "Details", new { id = @itm.Id }, new { @class = "btn btn-primary", data_bs_toggle = "offcanvas", data_bs_target = "#offcanvasBackdrop-" + @itm.Id, aria_controls = "offcanvasBackdrop" + @itm.Id })
+                                @Html.ActionLink("Editar", "Edit", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-warning" })
+                                @Html.ActionLink("Eliminar", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-danger" })
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+
+@if (Model != null)
+{
+    @foreach (var item in Model)
+    {
+        @foreach (var itm in item.Items)
+        {
+
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasBackdrop-@Html.DisplayFor(modelItem => @itm.Id)" aria-labelledby="offcanvasBackdropLabel">
+                <div class="offcanvas-header bg-light bg-gradient">
+                    <h5 class="offcanvas-title" id="offcanvasBackdropLabel">@Html.DisplayFor(modelItem => @itm.Name)</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Id): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Id)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Alarm): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Alarm)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Name): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Name)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Online): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Online)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Time): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Time)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Timestamp): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Timestamp)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Acktimestamp): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Acktimestamp)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Lat): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Lat)°</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Lng): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Lng)°</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Course): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Course)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Speed): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Speed)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Altitude): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Altitude)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.IconType): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.IconType)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.IconColor): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.IconColor)</span></li>
+                    </ul>
+                    <div class="accordion" id="itemsIconColors">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="itemsIconColors-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#itemsIconColors-collapseOne" aria-expanded="false" aria-controls="itemsIconColors-collapseOne">
+                                    <h4>@Html.DisplayNameFor(modelItem => @itm.IconColors)</h4>
+                                </button>
+                            </h2>
+                            <div id="itemsIconColors-collapseOne" class="accordion-collapse collapse" aria-labelledby="itemsIconColors-headingOne">
+                                <div class="accordion-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.IconColors.Moving): <span class="badge rounded-pill bg-success">@Html.DisplayFor(modelItem => @itm.IconColors.Moving)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.IconColors.Stopped): <span class="badge rounded-pill bg-warning text-dark">@Html.DisplayFor(modelItem => @itm.IconColors.Stopped)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.IconColors.Offline): <span class="badge rounded-pill bg-danger">@Html.DisplayFor(modelItem => @itm.IconColors.Offline)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.IconColors.Engine): <span class="badge rounded-pill bg-warning text-dark">@Html.DisplayFor(modelItem => @itm.IconColors.Engine)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" id="itemsIcon">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="itemsIcon-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#itemsIcon-collapseOne" aria-expanded="false" aria-controls="itemsIcon-collapseOne">
+                                    <h4>@Html.DisplayNameFor(modelItem => @itm.Icon)</h4>
+                                </button>
+                            </h2>
+                            <div id="itemsIcon-collapseOne" class="accordion-collapse collapse" aria-labelledby="itemsIcon-headingOne">
+                                <div class="accordion-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Icon.Id): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Icon.Id)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Icon.UserId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Icon.UserId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Icon.Type): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Icon.Type)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Icon.Order): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Icon.Order)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Icon.Width): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Icon.Width)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Icon.Height): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Icon.Height)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Icon.Path): <span class="badge rounded-pill bg-light text-dark"><a href="@Html.DisplayFor(modelItem => @itm.Icon.Path)" target="_blank" data-bs-toggle="tooltip" data-bs-html="true" title="<img src='@Html.DisplayFor(modelItem => @itm.Icon.Path)'>">@Html.DisplayFor(modelItem => @itm.Icon.Path)</a></span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Icon.ByStatus): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Icon.ByStatus)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Power): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Power)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Address): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Address)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Protocol): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Protocol)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Driver): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Driver)</span></li>
+                    </ul>
+                    <div class="accordion" id="itemsDriverData">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="itemsDriverData-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#itemsDriverData-collapseOne" aria-expanded="false" aria-controls="itemsDriverData-collapseOne">
+                                    <h4>@Html.DisplayNameFor(modelItem => @itm.DriverData)</h4>
+                                </button>
+                            </h2>
+                            <div id="itemsDriverData-collapseOne" class="accordion-collapse collapse" aria-labelledby="itemsDriverData-headingOne">
+                                <div class="accordion-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DriverData.Id): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DriverData.Id)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DriverData.UserId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DriverData.UserId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DriverData.DeviceId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DriverData.DeviceId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DriverData.Name): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DriverData.Name)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DriverData.Rfid): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DriverData.Rfid)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DriverData.Phone): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DriverData.Phone)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DriverData.Email): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DriverData.Email)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DriverData.Description): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DriverData.Description)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DriverData.CreatedAt): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DriverData.CreatedAt)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DriverData.UpdatedAt): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DriverData.UpdatedAt)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Sensors): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Sensors)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Services): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Services)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.Tail): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.Tail)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DistanceUnitHour): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DistanceUnitHour)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.UnitOfDistance): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.UnitOfDistance)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.UnitOfAltitude): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.UnitOfAltitude)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.UnitOfCapacity): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.UnitOfCapacity)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.StopDuration): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.StopDuration)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.StopDurationSec): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.StopDurationSec)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.MovedTimestamp): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.MovedTimestamp)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.EngineStatus): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.EngineStatus)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DetectEngine): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DetectEngine)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.EngineHours): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.EngineHours)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.TotalDistance): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.TotalDistance)</span></li>
+                    </ul>
+                    <div class="accordion" id="itemsDeviceData">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="itemsDeviceData-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#itemsDeviceData-collapseOne" aria-expanded="false" aria-controls="itemsDeviceData-collapseOne">
+                                    <h4>@Html.DisplayNameFor(modelItem => @itm.DeviceData)</h4>
+                                </button>
+                            </h2>
+                            <div id="itemsDeviceData-collapseOne" class="accordion-collapse collapse" aria-labelledby="itemsDeviceData-headingOne">
+                                <div class="accordion-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Id): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Id)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.UserId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.UserId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.CurrentDriverId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.CurrentDriverId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.TimezoneId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.TimezoneId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.TraccarDeviceId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.TraccarDeviceId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.IconId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.IconId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Active): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Active)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Deleted): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Deleted)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Name): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Name)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Imei): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Imei)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.FuelMeasurementId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.FuelMeasurementId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.FuelQuantity): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.FuelQuantity)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.FuelPrice): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.FuelPrice)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.FuelPerKm): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.FuelPerKm)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.SimNumber): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.SimNumber)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Msisdn): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Msisdn)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.DeviceModel): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.DeviceModel)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.PlateNumber): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.PlateNumber)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Vin): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Vin)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.RegistrationNumber): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.RegistrationNumber)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.ObjectOwner): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.ObjectOwner)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.AdditionalNotes): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.AdditionalNotes)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.ExpirationDate): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.ExpirationDate)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.SimExpirationDate): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.SimExpirationDate)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.SimActivationDate): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.SimActivationDate)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.InstallationDate): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.InstallationDate)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.TailColor): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.TailColor)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.TailLength): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.TailLength)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.EngineHours): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.EngineHours)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.DetectEngine): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.DetectEngine)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.MinMovingSpeed): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.MinMovingSpeed)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.MinFuelFillings): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.MinFuelFillings)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.MinFuelThefts): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.MinFuelThefts)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.SnapToRoad): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.SnapToRoad)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.GprsTemplatesOnly): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.GprsTemplatesOnly)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.ValidByAvgSpeed): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.ValidByAvgSpeed)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Parameters): <span class="rounded bg-light text-break">@Html.DisplayFor(modelItem => @itm.DeviceData.Parameters)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Currents): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Currents)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.CreatedAt): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.CreatedAt)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.UpdatedAt): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.UpdatedAt)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Forward): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Forward)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.DeviceTypeId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.DeviceTypeId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.StopDuration): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.StopDuration)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" id="itemsDeviceDataIconColors">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="itemsDeviceDataIconColors-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#itemsDeviceDataIconColors-collapseOne" aria-expanded="false" aria-controls="itemsDeviceDataIconColors-collapseOne">
+                                    <h4>@Html.DisplayNameFor(modelItem => @itm.DeviceData) <span class="badge bg-secondary">@Html.DisplayNameFor(modelItem => @itm.DeviceData.IconColors)</span></h4>
+                                </button>
+                            </h2>
+                            <div id="itemsDeviceDataIconColors-collapseOne" class="accordion-collapse collapse" aria-labelledby="itemsDeviceDataIconColors-headingOne">
+                                <div class="accordion-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.IconColors.Moving): <span class="badge rounded-pill bg-success">@Html.DisplayFor(modelItem => @itm.DeviceData.IconColors.Moving)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.IconColors.Stopped): <span class="badge rounded-pill bg-warning text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.IconColors.Stopped)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.IconColors.Offline): <span class="badge rounded-pill bg-danger">@Html.DisplayFor(modelItem => @itm.DeviceData.IconColors.Offline)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.IconColors.Engine): <span class="badge rounded-pill bg-warning text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.IconColors.Engine)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" id="itemsDeviceDataPivot">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="itemsDeviceDataPivot-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#itemsDeviceDataPivot-collapseOne" aria-expanded="false" aria-controls="itemsDeviceDataPivot-collapseOne">
+                                    <h4>@Html.DisplayNameFor(modelItem => @itm.DeviceData) <span class="badge bg-secondary">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Pivot)</span></h4>
+                                </button>
+                            </h2>
+                            <div id="itemsDeviceDataPivot-collapseOne" class="accordion-collapse collapse" aria-labelledby="itemsDeviceDataPivot-headingOne">
+                                <div class="accordion-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Pivot.UserId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Pivot.UserId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Pivot.DeviceId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Pivot.DeviceId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Pivot.GroupId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Pivot.GroupId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Pivot.CurrentDriverId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Pivot.CurrentDriverId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Pivot.Active): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Pivot.Active)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Pivot.TimezoneId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Pivot.TimezoneId)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" id="itemsDeviceDataTraccar">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="itemsDeviceDataTraccar-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#itemsDeviceDataTraccar-collapseOne" aria-expanded="false" aria-controls="itemsDeviceDataTraccar-collapseOne">
+                                    <h4>@Html.DisplayNameFor(modelItem => @itm.DeviceData) <span class="badge bg-secondary">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar)</span></h4>
+                                </button>
+                            </h2>
+                            <div id="itemsDeviceDataTraccar-collapseOne" class="accordion-collapse collapse" aria-labelledby="itemsDeviceDataTraccar-headingOne">
+                                <div class="accordion-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.Id): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.Id)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.Name): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.Name)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.UniqueId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.UniqueId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.LatestPositionId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.LatestPositionId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.LastValidLatitude): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.LastValidLatitude)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.LastValidLongitude): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.LastValidLongitude)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.Other): <span class="rounded bg-light text-break">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.Other)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.Speed): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.Speed)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.Time): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.Time)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.DeviceTime): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.DeviceTime)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.ServerTime): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.ServerTime)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.AckTime): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.AckTime)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.Altitude): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.Altitude)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.Course): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.Course)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.Power): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.Power)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.Address): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.Address)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.Protocol): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.Protocol)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.LatestPositions): <span class="rounded bg-light text-breakrounded bg-light text-break">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.LatestPositions)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.MovedAt): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.MovedAt)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.StopedAt): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.StopedAt)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.EngineOnAt): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.EngineOnAt)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.EngineOffAt): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.EngineOffAt)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.EngineChangedAt): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.EngineChangedAt)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Traccar.DatabaseId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Traccar.DatabaseId)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" id="itemsDeviceDataIcon">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="itemsDeviceDataIcon-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#itemsDeviceDataIcon-collapseOne" aria-expanded="false" aria-controls="itemsDeviceDataIcon-collapseOne">
+                                    <h4>@Html.DisplayNameFor(modelItem => @itm.DeviceData) <span class="badge bg-secondary">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Icon)</span></h4>
+                                </button>
+                            </h2>
+                            <div id="itemsDeviceDataIcon-collapseOne" class="accordion-collapse collapse" aria-labelledby="itemsDeviceDataIcon-headingOne">
+                                <div class="accordion-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Icon.Id): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Icon.Id)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Icon.UserId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Icon.UserId)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Icon.Type): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Icon.Type)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Icon.Order): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Icon.Order)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Icon.Width): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Icon.Width)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Icon.Height): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Icon.Height)</span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Icon.Path): <span class="badge rounded-pill bg-light text-dark"><a href="@Html.DisplayFor(modelItem => @itm.DeviceData.Icon.Path)" target="_blank" data-bs-toggle="tooltip" data-bs-html="true" title="<img src='@Html.DisplayFor(modelItem => @itm.DeviceData.Icon.Path)'>">@Html.DisplayFor(modelItem => @itm.DeviceData.Icon.Path)</a></span></li>
+                                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Icon.ByStatus): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Icon.ByStatus)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Sensors): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Sensors)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Services): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Services)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Driver): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Driver)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.LastValidLatitude): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.LastValidLatitude)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.LastValidLongitude): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.LastValidLongitude)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.LatestPositions): <span class="rounded bg-light text-break">@Html.DisplayFor(modelItem => @itm.DeviceData.LatestPositions)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.IconType): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.IconType)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.GroupId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.GroupId)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.UserTimezoneId): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.UserTimezoneId)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Time): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Time)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Course): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Course)</span></li>
+                        <li class="list-group-item">@Html.DisplayNameFor(modelItem => @itm.DeviceData.Speed): <span class="badge rounded-pill bg-light text-dark">@Html.DisplayFor(modelItem => @itm.DeviceData.Speed)</span></li>
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+}

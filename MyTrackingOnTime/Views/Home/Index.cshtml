@@ -1,0 +1,1305 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="~/lib/datatables/1.11.3/css/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/datatables/extensions/datatables/1.11.3/css/dataTables.bootstrap5.min.css" />
+}
+
+@section Scripts {
+    <script type="text/javascript" src="~/lib/datatables/1.11.3/js/datatables.min.js"></script>
+    <script type="text/javascript" src="~/lib/datatables/extensions/datatables/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //DataTable BootStrap
+            $('#devices, #example').DataTable({
+                "language": {
+                "url": '@Url.Content("~/lib/datatables/extensions/i18n/es-mx.json")'
+                }
+            });
+
+            // Tooltips Bootstrap
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
+    </script>
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bienvenido</h1>
+    <p>@ViewBag.Message</p>
+</div>
+
+<div class="offcanvas offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Colored with scrolling</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="nav nav-tabs" id="offcanvasSidebarTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="objects-tab" data-bs-toggle="tab" data-bs-target="#objects" type="button" role="tab" aria-controls="Objects" aria-selected="true">Objetos</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab" aria-controls="Events" aria-selected="false">Eventos</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="History" aria-selected="false">Historial</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="offcanvasSidebarTabsContent">
+            <div class="tab-pane fade show active" id="objects" role="tabpanel" aria-labelledby="objects-tab">
+                <div class="input-group mb-3 mt-3">
+                    <input type="text" class="form-control" placeholder="Búsqueda" aria-label="Búsqueda" aria-describedby="button-search">
+                    <button class="btn" type="button" id="button-search" title="Buscar"><i class="fas fa-search"></i></button>
+                    <button class="btn" type="button" id="button-list" title="Lista" data-bs-toggle="modal" data-bs-target="#ObjectListModal"><i class="fas fa-bars"></i></button>
+                </div>
+                <div class="list-group-item list-group-item-action rounded-top" id="collapseHeader">
+                    <div class="input-group">
+                        <div class="form-check form-switch" id="allCheckboxContainer">
+                            <input class="form-check-input selectAllcheckbox" type="checkbox">
+                            <label class="form-check-label" for="allCheckbox"></label>
+                        </div>
+                        <div class="btn list-group-item list-group-item-action" id="collapseTitleGroup" data-bs-toggle="collapse" data-bs-target="#collapseObjects" aria-expanded="true" aria-controls="collapseObjects">
+                            Sin grupo (26)
+                        </div>
+                        <a class="btn" id="button-devices-groups-create" data-bs-toggle="modal" data-bs-target="#DevicesGroupsCreateModal"><i class="fas fa-ellipsis-v"></i></a>
+                    </div>
+                </div>
+                <div class="collapse show" id="collapseObjects">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-action">
+                            <div class="input-group">
+                                <div class="form-check form-switch" id="checkboxContainer">
+                                    <input class="form-check-input" type="checkbox" id="checkboxItem">
+                                    <label class="form-check-label" for="checkboxItem"></label>
+                                </div>
+                                <div class="btn list-group-item list-group-item-action" id="nameItem">
+                                    <span data-device="name" title="8262 TK110-EN2 (9994920080)8262">8262 TK110-EN2 (9994920080)8262</span>
+                                    <span data-device="time" title="23-11-2021 16:30:10">23-11-2021 16:30:10</span>
+                                    <span data-device="speed" title="0 kph">0 kph</span>
+                                    <span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span>
+                                </div>
+                                <div class="details">
+                                    <div class="btn-group dropend">
+                                        <i class="btn fas fa-ellipsis-v" id="button-details" data-bs-toggle="dropdown" aria-expanded="false" title="Detalles"></i>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="#" class="dropdown-item" onclick="app.history.device('8', 'last_hour');">
+                                                    <i class="far fa-clock"></i>
+                                                    <span class="text">Mostrar historial (ultima hora)</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="dropdown-item" onclick="app.history.device('8', 'today');">
+                                                    <i class="fas fa-calendar-day"></i>
+                                                    <span class="text">Mostrar historial (hoy)</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="dropdown-item" onclick="app.history.device('8', 'yesterday');">
+                                                    <i class="fas fa-history"></i>
+                                                    <span class="text">Mostrar historial (ayer)</span>
+                                                </a>
+                                            </li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <a href="#" class="dropdown-item" data-url="https://admin.mytrackingontime.com/devices/follow_map/8" data-id="8" onclick="app.devices.follow(8);" data-name="Seguir (6551 TK110-EN3 (9994920087)-7825)">
+                                                    <i class="fas fa-location-arrow"></i>
+                                                    <span class="text">Seguir</span>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#" class="dropdown-item" data-url="https://admin.mytrackingontime.com/send_command/create" data-modal="send_command" data-id="8">
+                                                    <i class="fas fa-terminal"></i>
+                                                    <span class="text">Enviar comando</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        @*<li class="list-group-item list-group-item-action">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                6585 TK110-EN11 (9991949676)6585
+                            </li>
+                            <li class="list-group-item list-group-item-action">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                6587  TK110-EN9 (9995504975)6588
+                            </li>
+                            <li class="list-group-item list-group-item-action">
+                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                6855 TK110-EN12 (9995496266)
+                            </li>*@
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">Eventos</div>
+            <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">Historial</div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Lista-->
+<div class="modal fade" id="ObjectListModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ObjectListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ObjectListModalLabel"><i class="fas fa-location-arrow text-success"></i> Objetos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive pt-2 pe-2 ps-2">
+                    <table id="example" class="table table-borderless table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Estado</th>
+                                <th>Última conexión</th>
+                                <th>Posición</th>
+                                <th data-orderable="false" class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-filter"></i> Opciones</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-file-csv"></i> CSV</a></li>
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-file-excel"></i> Excel</a></li>
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-file-pdf"></i> PDF</a></li>
+                                        </ul>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>8262 TK110-EN2 (9994920080)8262</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Edinburgh</td>
+                                <td>61</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Garrett Winters</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Tokyo</td>
+                                <td>63</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ashton Cox</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>66</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Cedric Kelly</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Edinburgh</td>
+                                <td>22</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Airi Satou</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Tokyo</td>
+                                <td>33</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Brielle Williamson</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>New York</td>
+                                <td>61</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Herrod Chandler</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>59</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Rhona Davidson</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Tokyo</td>
+                                <td>55</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Colleen Hurst</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>39</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sonya Frost</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Edinburgh</td>
+                                <td>23</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jena Gaines</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>30</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Quinn Flynn</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Edinburgh</td>
+                                <td>22</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Charde Marshall</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>36</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Haley Kennedy</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>43</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tatyana Fitzpatrick</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>19</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Michael Silva</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>66</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Paul Byrd</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>New York</td>
+                                <td>64</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Gloria Little</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>New York</td>
+                                <td>59</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bradley Greer</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>41</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Dai Rios</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Edinburgh</td>
+                                <td>35</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jenette Caldwell</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>New York</td>
+                                <td>30</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Yuri Berry</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>New York</td>
+                                <td>40</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Caesar Vance</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>New York</td>
+                                <td>21</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Doris Wilder</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Sydney</td>
+                                <td>23</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Angelica Ramos</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>47</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Gavin Joyce</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Edinburgh</td>
+                                <td>42</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jennifer Chang</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Singapore</td>
+                                <td>28</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Brenden Wagner</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>28</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Fiona Green</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>48</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Shou Itou</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Tokyo</td>
+                                <td>20</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Michelle House</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Sydney</td>
+                                <td>37</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Suki Burks</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>53</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Prescott Bartlett</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>27</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Gavin Cortez</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>22</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Martena Mccray</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Edinburgh</td>
+                                <td>46</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Unity Butler</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>47</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Howard Hatfield</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>51</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Hope Fuentes</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>41</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Vivian Harrell</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>62</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Timothy Mooney</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>37</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jackson Bradshaw</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>New York</td>
+                                <td>65</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Olivia Liang</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Singapore</td>
+                                <td>64</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bruno Nash</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>38</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sakura Yamamoto</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Tokyo</td>
+                                <td>37</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Thor Walton</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>New York</td>
+                                <td>61</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Finn Camacho</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>47</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Serge Baldwin</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Singapore</td>
+                                <td>64</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Zenaida Frank</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>New York</td>
+                                <td>63</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Zorita Serrano</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>56</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jennifer Acosta</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Edinburgh</td>
+                                <td>43</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Cara Stevens</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>New York</td>
+                                <td>46</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Hermione Butler</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>47</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Lael Greer</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>London</td>
+                                <td>21</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jonas Alexander</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>San Francisco</td>
+                                <td>30</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Shad Decker</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Edinburgh</td>
+                                <td>51</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Michael Bruce</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>Singapore</td>
+                                <td>29</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Donna Snider</td>
+                                <td><span data-device="status" style="background-color: red" title="Desconectado" data-bs-toggle="tooltip" data-bs-placement="top">offline</span></td>
+                                <td>New York</td>
+                                <td>27</td>
+                                <td class="text-end">
+                                    <div class="dropdown">
+                                        <div class="btn" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#"><i class="fas fa-location-arrow"></i> Seguir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                @*<button type="button" class="btn btn-primary">Guardar</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Agregar-->
+<div class="modal fade" id="DevicesGroupsCreateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="DevicesGroupsCreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DevicesGroupsCreateModalLabel"><i class="fas fa-plus text-success"></i> Agregar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="title" aria-describedby="titleHelp">
+                        <div id="titlelHelp" class="form-text">Título o nombre del grupo</div>
+                    </div>
+                    <label class="form-label">Dispositivos: </label>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary selectAllObjects" type="button">Seleccionar todo</button>
+                        <button class="btn btn-outline-secondary deselectAllObjects" type="button">Deseleccionar todo</button>
+                        <input type="text" class="form-control" id="inputSearch" placeholder="Buscar..." aria-label="Buscar">
+                        <div class="input-group-text"><i class="fas fa-search"></i></div>
+                    </div>
+                    <div class="overflow-auto card scrollbar-primary addObject" style="width: auto; height: 400px; min-height: 300px">
+                        <div class="col-12 card-header bg-light sticky-top">
+                            <label class="list-group-item border-0 bg-transparent">
+                                <input class="form-check-input me-1 checkAll" type="checkbox" value="">
+                                Sin grupo
+                            </label>
+                        </div>
+                        <ul class="dropdown-menu show d-flex align-items-start flex-row flex-wrap border-0 mt-5">
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6551 TK110-EN3 (9994920087)-7825
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6585 TK110-EN11 (9991949676)6585
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8118 TK110-EN14 (9992720910) 8118
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8263 TK110-EN4 (9992311593)8263
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6551 TK110-EN3 (9994920087)-7825
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6585 TK110-EN11 (9991949676)6585
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8118 TK110-EN14 (9992720910) 8118
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8263 TK110-EN4 (9992311593)8263
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6551 TK110-EN3 (9994920087)-7825
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6585 TK110-EN11 (9991949676)6585
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8118 TK110-EN14 (9992720910) 8118
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8263 TK110-EN4 (9992311593)8263
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6551 TK110-EN3 (9994920087)-7825
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6585 TK110-EN11 (9991949676)6585
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8118 TK110-EN14 (9992720910) 8118
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8263 TK110-EN4 (9992311593)8263
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6551 TK110-EN3 (9994920087)-7825
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6585 TK110-EN11 (9991949676)6585
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8118 TK110-EN14 (9992720910) 8118
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8263 TK110-EN4 (9992311593)8263
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6551 TK110-EN3 (9994920087)-7825
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    6585 TK110-EN11 (9991949676)6585
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8118 TK110-EN14 (9992720910) 8118
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8263 TK110-EN4 (9992311593)8263
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8118 TK110-EN14 (9992720910) 8118
+                                </label>
+                            </li>
+                            <li class="col-6">
+                                <label class="list-group-item list-group-item-action border-0">
+                                    <input class="form-check-input me-1 checkboxes" type="checkbox" value="">
+                                    8263 TK110-EN4 (9992311593)8263
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

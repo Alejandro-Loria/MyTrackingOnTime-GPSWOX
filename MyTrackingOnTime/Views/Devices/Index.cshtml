@@ -1,0 +1,133 @@
+﻿@{
+    //ViewData["Title"] = "Dispositivos (Devices)";
+    ViewBag.Title = "Dispositivos (Devices)";
+}
+
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="~/lib/datatables/1.11.3/css/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/datatables/extensions/datatables/1.11.3/css/dataTables.bootstrap5.min.css" />
+}
+
+@section Scripts {
+    <script type="text/javascript" src="~/lib/datatables/1.11.3/js/datatables.min.js"></script>
+    <script type="text/javascript" src="~/lib/datatables/extensions/datatables/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //DataTable BootStrap
+            $('#devices').DataTable({
+                "language": {
+                "url": '@Url.Content("~/lib/datatables/extensions/i18n/es-mx.json")'
+                }
+            });
+
+            // Tooltips Bootstrap
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
+    </script>
+
+    @if (ViewBag.error != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var toastError = document.getElementById('ErrorToast')
+                var toast = new bootstrap.Toast(toastError)
+                toast.show({
+                    animation: true,
+                    autohide: true,
+                    delay: 9000
+                });
+            });
+        </script>
+    }
+
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var toastSuccess = document.getElementById('SuccessToast')
+                var toast = new bootstrap.Toast(toastSuccess)
+                toast.show({
+                    animation: true,
+                    autohide: true,
+                    delay: 9000
+                });
+            });
+        </script>
+    }
+
+    @if (ViewBag.SyncOrAsync != null)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var toastSyncOrAsync = document.getElementById('SyncOrAsyncToast')
+                var toast = new bootstrap.Toast(toastSyncOrAsync)
+                toast.show({
+                    animation: true,
+                    autohide: true,
+                    delay: 8000
+                });
+            });
+        </script>
+    }
+}
+
+<div aria-live="polite" aria-atomic="true" class="position-relative">
+    <!-- Position it: -->
+    <!-- - `.toast-container` for spacing between toasts -->
+    <!-- - `.position-absolute`, `top-0` & `end-0` to position the toasts in the upper right corner -->
+    <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        @if (ViewBag.error != null)
+        {
+            <div id="ErrorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-danger">
+                    <img src="~/img/favicons/favicon-32x32.png" class="rounded me-2" alt="...">
+                    <strong class="me-auto">Devices</strong>
+                    <small class="text-white">@ViewBag.elapsedTime segundos</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <p>@ViewBag.error</p>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.Message != null)
+        {
+            <div id="SuccessToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-success text-white">
+                    @*<img src="~/img/favicons/favicon-32x32.png" class="rounded me-2" alt="...">*@
+                    <i class="fas fa-check-circle rounded me-2"></i>
+                    <strong class="me-auto">Devices</strong>
+                    <small class="text-white">@ViewBag.elapsedTime segundos</small>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <p>@ViewBag.Message</p>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.SyncOrAsync != null)
+        {
+            <div id="SyncOrAsyncToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-info text-white">
+                    @*<img src="~/img/favicons/favicon-32x32.png" class="rounded me-2" alt="...">*@
+                    <i class="fas fa-truck rounded me-2"></i>
+                    <strong class="me-auto">Devices</strong>
+                    <small class="text-white">@ViewBag.elapsedTime segundos</small>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <p>Synch Type: @ViewBag.SyncOrAsync</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<partial name="_Sidebar" />

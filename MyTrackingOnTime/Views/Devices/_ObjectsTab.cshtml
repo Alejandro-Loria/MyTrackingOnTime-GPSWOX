@@ -1,0 +1,97 @@
+﻿@model IEnumerable<MyTrackingOnTime.Models.DevicesModel.Root>
+
+<div class="tab-pane fade show active" id="objects" role="tabpanel" aria-labelledby="objects-tab">
+    <div class="input-group mb-3 mt-3">
+        <input type="text" class="form-control" placeholder="Búsqueda" aria-label="Búsqueda" aria-describedby="button-search">
+        <button class="btn" type="button" id="button-search" title="Buscar"><i class="fas fa-search"></i></button>
+        <button class="btn" type="button" id="button-list" title="Lista" data-bs-toggle="modal" data-bs-target="#ObjectListModal"><i class="fas fa-bars"></i></button>
+    </div>
+    <div class="list-group-item list-group-item-action rounded-top" id="collapseHeader">
+        <div class="input-group">
+            <div class="form-check form-switch" id="allCheckboxContainer">
+                <input class="form-check-input selectAllcheckbox" type="checkbox">
+                <label class="form-check-label" for="allCheckbox"></label>
+            </div>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="btn list-group-item list-group-item-action" id="collapseTitleGroup" data-bs-toggle="collapse" data-bs-target="#collapseObjects" aria-expanded="true" aria-controls="collapseObjects">
+                        @Html.LabelFor(modelItem => item.Title, new { @class = "control-label" }): @Html.DisplayFor(modelItem => item.Title)
+                    </div>
+                }
+            }
+            <a class="btn" id="button-devices-groups-create" data-bs-toggle="modal" data-bs-target="#DevicesGroupsCreateModal"><i class="fas fa-ellipsis-v"></i></a>
+        </div>
+    </div>
+    <div class="collapse show" id="collapseObjects">
+        <ul class="list-group">
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    @if (item.Items != null)
+                    {
+                        @foreach (var itm in item.Items)
+                        {
+                            <li class="list-group-item list-group-item-action">
+                                <div class="input-group">
+                                    <div class="form-check form-switch" id="checkboxContainer">
+                                        <input class="form-check-input" type="checkbox" id="checkboxItem">
+                                        <label class="form-check-label" for="checkboxItem"></label>
+                                    </div>
+                                    <div class="btn list-group-item list-group-item-action" id="nameItem">
+                                        <span data-device="name" title="@Html.DisplayFor(modelItem => @itm.Name)">@Html.DisplayFor(modelItem => @itm.Name)</span>
+                                        <span data-device="time" title="@Html.DisplayFor(modelItem => @itm.Time)">@Html.DisplayFor(modelItem => @itm.Time)</span>
+                                        <span data-device="speed" title="@Html.DisplayFor(modelItem => @itm.Speed) kph">@Html.DisplayFor(modelItem => @itm.Speed) kph</span>
+                                        <span data-device="status" style="background-color: @Html.DisplayFor(modelItem => itm.IconColor)" title="@Html.DisplayName(@itm.Online).First().ToString().ToUpper()@Html.DisplayName(@itm.Online).ToString().Substring(1)" data-bs-toggle="tooltip" data-bs-placement="top">@Html.DisplayName(@itm.Online).First().ToString().ToUpper()@Html.DisplayName(@itm.Online).ToString().Substring(1)</span>
+                                    </div>
+                                    <div class="details">
+                                        <div class="btn-group dropend">
+                                            <i class="btn fas fa-ellipsis-v" id="button-details" data-bs-toggle="dropdown" aria-expanded="false" title="Detalles"></i>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="#" class="dropdown-item" onclick="app.history.device('8', 'last_hour');">
+                                                        <i class="far fa-clock"></i>
+                                                        <span class="text">Mostrar historial (ultima hora)</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="dropdown-item" onclick="app.history.device('8', 'today');">
+                                                        <i class="fas fa-calendar-day"></i>
+                                                        <span class="text">Mostrar historial (hoy)</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="dropdown-item" onclick="app.history.device('8', 'yesterday');">
+                                                        <i class="fas fa-history"></i>
+                                                        <span class="text">Mostrar historial (ayer)</span>
+                                                    </a>
+                                                </li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li>
+                                                    <a href="#" class="dropdown-item" data-url="https://admin.mytrackingontime.com/devices/follow_map/8" data-id="8" onclick="app.devices.follow(8);" data-name="Seguir (6551 TK110-EN3 (9994920087)-7825)">
+                                                        <i class="fas fa-location-arrow"></i>
+                                                        <span class="text">Seguir</span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#" class="dropdown-item" data-url="https://admin.mytrackingontime.com/send_command/create" data-modal="send_command" data-id="8">
+                                                        <i class="fas fa-terminal"></i>
+                                                        <span class="text">Enviar comando</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                }
+            }
+        </ul>
+    </div>
+</div>
+

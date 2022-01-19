@@ -1,0 +1,314 @@
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+
+/* Permissions */
+
+.icon-square {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.5rem;
+    border-radius: .75rem;
+}
+
+.bi {
+    vertical-align: -.125em;
+    fill: currentColor;
+}
+
+
+/* Devices */
+
+.device-status, .status, [data-device=status] {
+    display: inline-block;
+    vertical-align: middle;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ddd;
+    border: 1px solid #ddd;
+    text-indent: 999999px;
+    overflow: hidden;
+}
+
+
+/* offcanvas */
+
+#offcanvasSidebar {
+    height: 90%;
+    top: auto;
+}
+
+    #offcanvasSidebar .offcanvas-body #button-search,
+    #offcanvasSidebar .offcanvas-body #button-list {
+        color: #6c757d;
+        border-color: #ced4da;
+    }
+        #offcanvasSidebar .offcanvas-body #button-search:hover,
+        #offcanvasSidebar .offcanvas-body #button-list:hover {
+            background-color: #f8f9fa;
+        }
+        #offcanvasSidebar .offcanvas-body #button-search:active,
+        #offcanvasSidebar .offcanvas-body #button-list:active {
+            background-color: #e9ecef;
+        }
+
+    #offcanvasSidebar .offcanvas-body #collapseHeader {
+        padding: 0px;
+        background-color: transparent;
+    }
+        #offcanvasSidebar .offcanvas-body #collapseHeader > .input-group {
+            flex-wrap: nowrap;
+        }
+        #offcanvasSidebar .offcanvas-body #collapseHeader #collapseTitleGroup {
+            width: 73.5%;
+            border-left: none;
+            border-right: none;
+            display: flex;
+            border: 0px solid rgba(0, 0, 0, 0.125);
+        }
+    #offcanvasSidebar .offcanvas-body #button-devices-groups-create {
+        color: #6c757d;
+        border: 0px solid rgba(0,0,0,.125);
+        border-bottom-right-radius: 0;
+        padding-left: 1.313rem;
+        padding-right: 1.313rem;
+        border-left: none;
+        margin: 0;
+    }
+        #offcanvasSidebar .offcanvas-body #button-devices-groups-create:hover {
+            background-color: #f8f9fa;
+        }
+        #offcanvasSidebar .offcanvas-body #button-devices-groups-create:active {
+            background-color: #e9ecef;
+        }
+
+    #offcanvasSidebar .offcanvas-body #allCheckboxContainer {
+        border: 0px solid rgba(0,0,0,.125);
+        border-right: none;
+        border-bottom-left-radius: 0;
+        background-color: transparent;
+        margin-bottom: 0;
+        width: 50px;
+    }
+
+    #offcanvasSidebar .offcanvas-body #allCheckboxContainer:hover {
+        background-color: #f8f9fa;
+    }
+    #offcanvasSidebar .offcanvas-body #allCheckboxContainer:active {
+        background-color: #e9ecef;
+    }
+
+    #offcanvasSidebar .offcanvas-body .selectAllcheckbox {
+        margin-left: -2em;
+        vertical-align: middle;
+        margin-top: 12px;
+        float: inherit;
+        text-align: center;
+    }
+
+    #offcanvasSidebar .offcanvas-body #collapseHeader #collapseTitleGroup:not(.collapsed) {
+        color: #0c63e4;
+        background-color: transparent;
+    }
+
+        #offcanvasSidebar .offcanvas-body #collapseHeader #collapseTitleGroup:not(.collapsed)::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+            transform: rotate(-180deg);
+        }
+
+    #offcanvasSidebar .offcanvas-body #collapseHeader #collapseTitleGroup::after {
+        flex-shrink: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-left: auto;
+        content: "";
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-size: 1.25rem;
+        transition: transform 0.2s ease-in-out;
+    }
+
+#offcanvasSidebar .offcanvas-body .list-group .list-group-item:first-child {
+    border-top-left-radius: initial;
+    border-top-right-radius: initial;
+    border-top: 0px;
+}
+
+    #offcanvasSidebar .offcanvas-body .dropdown-menu {
+        position: fixed !important;
+    }
+
+    #offcanvasSidebar .offcanvas-body #collapseObjects ul.list-group > li.list-group-item.list-group-item-action {
+        padding: 0px;
+    }
+
+        #offcanvasSidebar .offcanvas-body #collapseObjects ul.list-group > li.list-group-item.list-group-item-action > .input-group > #checkboxContainer {
+            border: 0px solid rgba(0,0,0,.125);
+            border-bottom-left-radius: 0;
+            background-color: transparent;
+            margin: 0;
+            width: 50px;
+        }
+            #offcanvasSidebar .offcanvas-body #collapseObjects ul.list-group > li.list-group-item.list-group-item-action > .input-group > #checkboxContainer > #checkboxItem {
+                margin-left: -2em;
+                vertical-align: middle;
+                margin-top: 23px;
+                float: inherit;
+                text-align: center;
+            }
+
+        #offcanvasSidebar .offcanvas-body #collapseObjects ul.list-group > li.list-group-item.list-group-item-action > .input-group > #nameItem {
+            width: 73.5%;
+            border: none;
+            background-color: transparent;
+        }
+            #offcanvasSidebar .offcanvas-body #collapseObjects ul.list-group > li.list-group-item.list-group-item-action > .input-group > #nameItem > [data-device=name] {
+                display: table-cell;
+                width: 100%;
+                vertical-align: top;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                max-width: 238px;
+            }
+            #offcanvasSidebar .offcanvas-body #collapseObjects ul.list-group > li.list-group-item.list-group-item-action > .input-group > #nameItem > [data-device=time] {
+                font-size: .7em;
+                display: inline-block;
+                color: #999;
+                margin-right: 10px;
+            }
+
+            #offcanvasSidebar .offcanvas-body #collapseObjects ul.list-group > li.list-group-item.list-group-item-action > .input-group > #nameItem > [data-device=speed] {
+                font-size: .7em;
+                display: inline-block;
+                color: #999;
+            }
+
+            #offcanvasSidebar .offcanvas-body #collapseObjects ul.list-group > li.list-group-item.list-group-item-action > .input-group > #nameItem > [data-device=status] {
+                display: inline-block;
+                vertical-align: middle;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: #ddd;
+                border: 1px solid #ddd;
+                text-indent: 999999px;
+                overflow: hidden;
+            }
+
+    #offcanvasSidebar .offcanvas-body #collapseObjects ul.list-group > li.list-group-item.list-group-item-action > .input-group > .details {
+        margin: 0px;
+        padding: 0px;
+    }
+
+        #offcanvasSidebar .offcanvas-body #collapseObjects ul.list-group > li.list-group-item.list-group-item-action > .input-group > .details > .btn-group.dropend > #button-details {
+            color: #6c757d;
+            border: 0px solid rgba(0,0,0,.125);
+            border-bottom-right-radius: 0;
+            padding: 1.27rem 1.2734rem;
+        }
+
+/* Scrollbar */
+/*.scrollbar {
+    margin-left: 30px;
+    float: left;
+    height: 300px;
+    width: 65px;
+    background: #fff;
+    overflow-y: scroll;
+    margin-bottom: 25px;
+}*/
+
+.scrollbar-primary::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.scrollbar-primary::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+.scrollbar-primary::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #0d6efd;
+}
+
+.scrollbar-primary {
+    scrollbar-color: #0d6efd #F5F5F5;
+}

@@ -1,0 +1,17 @@
+﻿<div class="offcanvas offcanvas-start show" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Colored with scrolling</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <partial name="_SidebarTabs" />
+
+        <div class="tab-content" id="offcanvasSidebarTabsContent">
+            @await Html.PartialAsync("_ObjectsTab")
+            <partial name="_ObjectsTab" />
+            <partial name="_EventsTab" />
+            <partial name="_HistoryTab" />
+        </div>
+    </div>
+</div>
+
